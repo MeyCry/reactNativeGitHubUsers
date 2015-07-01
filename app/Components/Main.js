@@ -61,7 +61,7 @@ class Main extends React.Component {
     super(props);
     // initial state
     this.state = {
-      username: "",
+      username: "meycry",
       isLoading: false,
       error: false
     }

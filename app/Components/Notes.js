@@ -59,11 +59,12 @@ class Notes extends React.Component{
   }
   handleSubmit(){
     var note = this.state.note;
+
     this.setState({
       note: ''
     });
     api.addNote(this.props.userInfo.login, note)
-      .then((data) => {
+      .then( (data) => {
         api.getNotes(this.props.userInfo.login)
           .then((data) => {
             this.setState({
@@ -81,6 +82,16 @@ class Notes extends React.Component{
       note: e.nativeEvent.text
     })
   }
+  renderRow(rowData){
+    return (
+      <View>
+        <View style={styles.rowContainer}>
+          <Text> {rowData} </Text>
+        </View>
+        <Separator />
+      </View>
+    );
+  }
   footer(){
     return (
       <View style={styles.footerContainer}>
@@ -88,7 +99,8 @@ class Notes extends React.Component{
           style={styles.searchInput}
           value={this.state.note}
           onChange={this.handleChange.bind(this)}
-          placeholder="New Note" />
+          placeholder="New Note"
+          />
         <TouchableHighlight
           style={styles.button}
           onPress={this.handleSubmit.bind(this)}
@@ -98,23 +110,26 @@ class Notes extends React.Component{
       </View>
     )
   }
-
   render(){
     return (
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          render={}
-          >
-
-        </ListView>
-
+          renderRow={this.renderRow}
+          renderHeader={() => <Badge userInfo={this.props.userInfo} /> }
+        />
         {this.footer()}
       </View>
     );
   }
 }
 
+Notes.propTypes = {
+  userInfo: React.PropTypes.object.isRequired,
+  notes: React.PropTypes.object.isRequired
+};
+
+module.exports = Notes;
 
 //class Notes extends React.Component{
 //  constructor(props){
